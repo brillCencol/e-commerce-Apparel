@@ -2,10 +2,13 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { backendUrl, currency } from '../App'
 import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
+import { assets } from '../assets/assets'
 
 const List = ({ token }) => {
 
   const [list, setList] = useState([])
+  const navigate = useNavigate()
 
   const fetchList = async () => {
     try {
@@ -70,7 +73,20 @@ const List = ({ token }) => {
               <p>{item.name}</p>
               <p>{item.category}</p>
               <p>{currency}{item.price}</p>
+
+              <div className='flex items-center justify-end md:justify-center gap-4'>
+              {/* EDIT */}
+              <img
+                src={assets.edit_icon}
+                alt='edit'
+                className='w-5 cursor-pointer'
+                onClick={() => navigate(`/add/${item._id}`, { state: { product: item } })}
+                title='Edit'
+              />
+              {/* DELETE */}
+
               <p onClick={()=>removeProduct(item._id)} className='text-right md:text-center cursor-pointer text-lg'>X</p>
+              </div>
             </div>
           ))
         }
